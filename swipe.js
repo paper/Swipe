@@ -4,14 +4,6 @@
  * Brad Birdsall
  * Copyright 2013, MIT License
  * https://github.com/thebird/Swipe
- * 
- * ========================================================
- * 
- * by paper:
- * 
- * 2016-10-09 
- * 1) 修复了，如果设置了auto，但用户又滑动时，不恢复继续自动滑动的bug
- * 2) 添加了 ADM & CMD
 */
 
 (function(root, factory) {
@@ -554,6 +546,16 @@
 
                     if (browser.transitions) translate(pos, 0, 0);
 
+                    // 移除 data-index
+                    slide.removeAttribute('data-index');
+
+                    // 如果一开始的轮播是2个，那么就会克隆2个，所以也需要清除
+                    if( length === 2 ) {
+                        // 清除克隆的那2个，以免第三方程序会出现问题
+                        if(pos === 3 || pos === 2) {
+                            slide.parentNode.removeChild(slide);
+                        }
+                    }
                 }
 
                 // removed event listeners
